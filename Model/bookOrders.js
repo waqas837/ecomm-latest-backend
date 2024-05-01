@@ -8,7 +8,7 @@ const bookOrder = new mongoose.Schema(
         deliveryTime: String,
         projectDesc: String,
         Price: Number,
-        pojectCompleted: { type: Boolean, default: false },
+        pojectCompleted: { type: Boolean, default: false }, // This field may not used
         acceptedBySeller: { type: Boolean, default: false },
         markAsCompleteBySeller: { type: Boolean, default: false },
         markAsCompleteByBuyer: { type: Boolean, default: false },
