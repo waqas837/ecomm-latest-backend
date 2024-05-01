@@ -21,8 +21,7 @@ const productSch = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  rating: {},
-  comments: {},
+  commentsAndRating: [{ type: mongoose.Schema.Types.ObjectId, ref: "CommentRating" }],
   userInfo: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 });
 

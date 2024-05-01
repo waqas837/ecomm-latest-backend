@@ -2,6 +2,7 @@ const { BookOrder } = require("../Model/bookOrders");
 const messagesSchema = require("../Model/messagesSchema");
 const { SellerProducts } = require("../Model/productSchema");
 const { Usersignup } = require("../Model/userSchema");
+const { commentsRatingModel } = require("../Model/commentsRatingSchema");
 
 exports.signup = async (req, res) => {
   try {
@@ -283,6 +284,21 @@ exports.buyerOrderCompleted = async (req, res) => {
     console.log("OrderId", orderId)
     const allOrders = await BookOrder.findByIdAndUpdate({ _id: orderId }, { markAsCompleteByBuyer: true });
     console.log("allOrders", allOrders);
+    res.json({ success: true, message: "Data Got", });
+  } catch (error) {
+    console.log("error while", error);
+    res.json({ success: false });
+  }
+};
+
+
+exports.rateSeller = async (req, res) => {
+  try {
+    let { gigId, buyerId } = req.params;
+    let { comment, rating } = req.body;
+    const comments = new commentsRatingModel({ comments: comment, rating, gigId, buyerId });
+    await comments.save();
+    const gigsWithComments = await SellerProducts.findByIdAndUpdate({ _id: gigId }, { $addToSet: { commentsAndRating: comments._id } });
     res.json({ success: true, message: "Data Got", });
   } catch (error) {
     console.log("error while", error);
