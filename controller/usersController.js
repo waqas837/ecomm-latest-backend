@@ -319,3 +319,17 @@ exports.getSingleProduct = async (req, res) => {
     res.json({ success: false });
   }
 };
+
+
+exports.updateGig = async (req, res) => {
+  try {
+    let { gigId } = req.params;
+    console.log("req.body", req.body)
+    let saveData = { ...req.body, productimg: req.file.filename }
+    let gigData = await SellerProducts.findByIdAndUpdate(gigId, saveData)
+    res.json({ success: true, message: "Data Got", data: gigData })
+  } catch (error) {
+    console.log("error while", error);
+    res.json({ success: false });
+  }
+};

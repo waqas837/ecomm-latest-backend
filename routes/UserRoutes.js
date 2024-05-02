@@ -21,6 +21,7 @@ const {
   buyerOrderCompleted,
   rateSeller,
   getSingleProduct,
+  updateGig,
 } = require("../controller/usersController");
 router.post("/signup/:userType", signup);
 router.post("/login", loginAccount);
@@ -47,6 +48,7 @@ router.get("/getCurrentOrderStatus/:orderId", getCurrentOrderStatus);
 router.get("/buyerOrderCompleted/:orderId", buyerOrderCompleted);
 router.patch("/rateSeller/:gigId/:buyerId", rateSeller);
 router.get("/getSingleProduct/:gigId", getSingleProduct);
+router.patch("/updateGig/:gigId", upload.single("file"), updateGig);
 
 
 module.exports = router;
