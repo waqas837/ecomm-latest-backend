@@ -23,6 +23,7 @@ const productSch = new mongoose.Schema({
   },
   commentsAndRating: [{ type: mongoose.Schema.Types.ObjectId, ref: "CommentRating" }],
   userInfo: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  completedOrders: { type: Number, default: 0 }
 });
 
 const SellerProducts = new mongoose.model("sellerProduct", productSch);

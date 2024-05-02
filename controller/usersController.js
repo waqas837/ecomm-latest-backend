@@ -277,7 +277,7 @@ exports.getCurrentOrderStatus = async (req, res) => {
   }
 };
 
-
+// finally
 exports.buyerOrderCompleted = async (req, res) => {
   try {
     let { orderId } = req.params;
@@ -291,15 +291,29 @@ exports.buyerOrderCompleted = async (req, res) => {
   }
 };
 
-
+// that's all
 exports.rateSeller = async (req, res) => {
   try {
     let { gigId, buyerId } = req.params;
     let { comment, rating } = req.body;
     const comments = new commentsRatingModel({ comments: comment, rating, gigId, buyerId });
     await comments.save();
-    const gigsWithComments = await SellerProducts.findByIdAndUpdate({ _id: gigId }, { $addToSet: { commentsAndRating: comments._id } });
+    await SellerProducts.findByIdAndUpdate(gigId, {
+      $inc: { completedOrders: 1 }
+    })
     res.json({ success: true, message: "Data Got", });
+  } catch (error) {
+    console.log("error while", error);
+    res.json({ success: false });
+  }
+};
+
+
+exports.getSingleProduct = async (req, res) => {
+  try {
+    let { gigId } = req.params;
+    let gigData = await SellerProducts.findById(gigId).populate({ path: "commentsAndRating", populate: { path: "buyerId", select: "-password" } });
+    res.json({ success: true, message: "Data Got", data: gigData })
   } catch (error) {
     console.log("error while", error);
     res.json({ success: false });
